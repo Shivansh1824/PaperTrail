@@ -119,14 +119,14 @@ export default function StoryReel({
         className="animate-fade"
         style={{
           position: 'relative',
-          background: `radial-gradient(ellipse at top right, ${currentChapter.themeColor}22 0%, var(--bg-surface) 70%)`,
-          border: `1px solid ${currentChapter.themeColor}44`,
+          background: `radial-gradient(ellipse at top right, ${currentChapter.themeColor}15 0%, var(--bg-surface) 75%)`,
+          border: `1px solid ${currentChapter.themeColor}40`,
           borderRadius: 'var(--radius-xl)',
           padding: 'var(--space-8) var(--space-8)',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: 'var(--space-8)',
-          boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.6)'
+          boxShadow: '0 8px 24px -6px rgba(15, 23, 42, 0.06)'
         }}
       >
         <div>
@@ -135,14 +135,14 @@ export default function StoryReel({
               color: currentChapter.themeColor, 
               fontFamily: 'var(--font-mono)', 
               fontWeight: 700, 
-              fontSize: '1rem',
-              letterSpacing: '0.1em'
+              fontSize: '0.9rem',
+              letterSpacing: '0.08em'
             }}>
               CHAPTER {currentChapter.number}
             </span>
             <span style={{ color: 'var(--text-faint)' }}>•</span>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Clock size={14} />
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Clock size={13} />
               {currentChapter.subtitle}
             </span>
           </div>
@@ -150,7 +150,7 @@ export default function StoryReel({
           <h1 style={{ 
             fontSize: 'var(--text-3xl)', 
             fontWeight: 800, 
-            color: '#fff', 
+            color: 'var(--text-primary)', 
             marginBottom: '12px',
             lineHeight: 1.15
           }}>
@@ -160,7 +160,7 @@ export default function StoryReel({
           <p style={{ 
             fontSize: 'var(--text-lg)', 
             color: currentChapter.themeColor, 
-            fontWeight: 500,
+            fontWeight: 600,
             marginBottom: '16px',
             fontStyle: 'italic'
           }}>
@@ -169,7 +169,7 @@ export default function StoryReel({
 
           <p style={{ 
             color: 'var(--text-secondary)', 
-            fontSize: '1.05rem', 
+            fontSize: '1rem', 
             lineHeight: 1.7,
             maxWidth: '620px'
           }}>
@@ -179,18 +179,19 @@ export default function StoryReel({
 
         {/* Chapter Forensic Insights */}
         <div style={{ 
-          background: 'rgba(8, 10, 15, 0.7)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--bg-surface-border)',
           borderRadius: 'var(--radius-lg)',
           padding: 'var(--space-6)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          gap: 'var(--space-4)'
+          gap: 'var(--space-4)',
+          boxShadow: '0 4px 12px rgba(15, 23, 42, 0.03)'
         }}>
           <div>
             <h3 style={{ 
-              fontSize: '0.85rem', 
+              fontSize: '0.82rem', 
               textTransform: 'uppercase', 
               letterSpacing: '0.08em', 
               color: 'var(--text-muted)',
@@ -199,17 +200,17 @@ export default function StoryReel({
               alignItems: 'center',
               gap: '6px'
             }}>
-              <TrendingUp size={16} style={{ color: currentChapter.themeColor }} />
+              <TrendingUp size={15} style={{ color: currentChapter.themeColor }} />
               Forensic Pattern Markers
             </h3>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
               {Object.entries(currentChapter.stats || {}).map(([key, val]) => (
-                <div key={key} style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>
+                <div key={key} style={{ background: 'var(--bg-surface-elevated)', padding: '12px', borderRadius: '8px', border: '1px solid var(--bg-surface-border)' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'capitalize', fontWeight: 600 }}>
                     {key.replace(/([A-Z])/g, ' $1')}
                   </div>
-                  <div className="tabular-nums" style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginTop: '4px' }}>
+                  <div className="tabular-nums" style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '4px' }}>
                     {val}
                   </div>
                 </div>
@@ -218,7 +219,7 @@ export default function StoryReel({
           </div>
 
           <div style={{ 
-            borderTop: '1px dashed rgba(255,255,255,0.1)', 
+            borderTop: '1px dashed var(--bg-surface-border)', 
             paddingTop: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -236,7 +237,7 @@ export default function StoryReel({
       <div className="animate-fade">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 'var(--space-6)' }}>
           <div>
-            <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: '#fff' }}>
+            <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--text-primary)' }}>
               The Anatomy of This Chapter
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>

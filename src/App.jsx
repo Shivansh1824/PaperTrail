@@ -88,20 +88,14 @@ export default function App() {
         allReceipts={allReceipts}
       />
 
-      {/* Footer */}
-      <footer style={{
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        padding: 'var(--space-6) var(--space-6)',
-        textAlign: 'center',
-        color: 'var(--text-muted)',
-        fontSize: '0.85rem'
-      }}>
-        <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+      {/* Compact Slim Footer — Never Cut Off */}
+      <footer className="app-footer" role="contentinfo">
+        <div className="app-footer-inner">
           <div>
-            <strong>PaperTrail</strong> — Your Life, In Receipts
+            <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>PaperTrail</strong> — Your Life, In Receipts
           </div>
-          <div>
-            WebRush 6-Hour Frontend Challenge • Built with React & GSAP • 100% Client-Side
+          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+            WebRush 6-Hour Challenge • React &amp; GSAP • 100% Client-Side
           </div>
         </div>
       </footer>

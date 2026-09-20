@@ -91,11 +91,11 @@ export default function ReceiptVault({
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: '100%',
-                background: 'var(--bg-surface-elevated)',
+                background: '#ffffff',
                 border: '1px solid var(--bg-surface-border)',
                 borderRadius: 'var(--radius-md)',
                 padding: '10px 14px 10px 42px',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 fontSize: '0.9rem',
                 outline: 'none',
                 fontFamily: 'inherit'
@@ -114,7 +114,7 @@ export default function ReceiptVault({
           </div>
 
           {/* Night Owl / Time of Day Toggle */}
-          <div style={{ display: 'flex', background: 'var(--bg-surface-elevated)', borderRadius: 'var(--radius-md)', padding: '3px' }}>
+          <div style={{ display: 'flex', background: 'var(--bg-surface-elevated)', borderRadius: 'var(--radius-md)', padding: '3px', border: '1px solid var(--bg-surface-border)' }}>
             <button
               data-testid="filter-all-hours"
               aria-label="Filter all hours"
@@ -124,8 +124,9 @@ export default function ReceiptVault({
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.85rem',
                 fontWeight: 600,
-                color: timeFilter === 'all' ? '#fff' : 'var(--text-muted)',
-                background: timeFilter === 'all' ? 'var(--bg-surface-border)' : 'transparent'
+                color: timeFilter === 'all' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                background: timeFilter === 'all' ? '#ffffff' : 'transparent',
+                boxShadow: timeFilter === 'all' ? '0 1px 3px rgba(15, 23, 42, 0.08)' : 'none'
               }}
             >
               All Hours
@@ -142,8 +143,9 @@ export default function ReceiptVault({
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.85rem',
                 fontWeight: 600,
-                color: timeFilter === 'night' ? '#c084fc' : 'var(--text-muted)',
-                background: timeFilter === 'night' ? 'rgba(168, 85, 247, 0.2)' : 'transparent'
+                color: timeFilter === 'night' ? '#7e22ce' : 'var(--text-secondary)',
+                background: timeFilter === 'night' ? '#f3e8ff' : 'transparent',
+                boxShadow: timeFilter === 'night' ? '0 1px 3px rgba(126, 34, 206, 0.12)' : 'none'
               }}
               title="Filter moments between 11 PM and 5 AM"
             >
@@ -162,8 +164,9 @@ export default function ReceiptVault({
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.85rem',
                 fontWeight: 600,
-                color: timeFilter === 'day' ? '#fbbf24' : 'var(--text-muted)',
-                background: timeFilter === 'day' ? 'rgba(245, 158, 11, 0.2)' : 'transparent'
+                color: timeFilter === 'day' ? '#b45309' : 'var(--text-secondary)',
+                background: timeFilter === 'day' ? '#fef3c7' : 'transparent',
+                boxShadow: timeFilter === 'day' ? '0 1px 3px rgba(180, 83, 9, 0.12)' : 'none'
               }}
             >
               <Sun size={14} />
@@ -179,12 +182,13 @@ export default function ReceiptVault({
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               style={{
-                background: 'var(--bg-surface-elevated)',
+                background: '#ffffff',
                 border: '1px solid var(--bg-surface-border)',
-                color: 'var(--text-secondary)',
+                color: 'var(--text-primary)',
                 padding: '10px 14px',
                 borderRadius: 'var(--radius-md)',
                 fontSize: '0.85rem',
+                fontWeight: 600,
                 outline: 'none',
                 cursor: 'pointer'
               }}
@@ -223,9 +227,10 @@ export default function ReceiptVault({
                   textTransform: 'capitalize',
                   whiteSpace: 'nowrap',
                   transition: 'all 150ms ease',
-                  background: isSelected ? 'var(--text-primary)' : 'var(--bg-surface-elevated)',
-                  color: isSelected ? '#080a0f' : 'var(--text-secondary)',
-                  border: isSelected ? 'none' : '1px solid var(--bg-surface-border)'
+                  background: isSelected ? 'var(--text-primary)' : '#ffffff',
+                  color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                  border: isSelected ? '1px solid var(--text-primary)' : '1px solid var(--bg-surface-border)',
+                  boxShadow: isSelected ? '0 2px 6px rgba(15, 23, 42, 0.12)' : '0 1px 2px rgba(15, 23, 42, 0.04)'
                 }}
               >
                 {type !== 'all' && <Icon size={12} />}
@@ -239,7 +244,7 @@ export default function ReceiptVault({
       {/* Counter & Status */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-          Displaying <span style={{ color: '#fff', fontWeight: 700 }}>{filteredReceipts.length}</span> receipts
+          Displaying <span style={{ color: 'var(--text-primary)', fontWeight: 800 }}>{filteredReceipts.length}</span> receipts
           {selectedType !== 'all' && <span> in <strong style={{ textTransform: 'capitalize' }}>{selectedType}</strong></span>}
           {timeFilter === 'night' && <span> (Night Owl hours only)</span>}
         </p>
@@ -254,7 +259,7 @@ export default function ReceiptVault({
             style={{
               fontSize: '0.8rem',
               color: 'var(--accent-amber)',
-              fontWeight: 600,
+              fontWeight: 700,
               textDecoration: 'underline'
             }}
           >
@@ -288,9 +293,9 @@ export default function ReceiptVault({
           textAlign: 'center',
           color: 'var(--text-muted)'
         }}>
-          <Sparkles size={36} style={{ margin: '0 auto 16px', opacity: 0.5 }} />
-          <h3 style={{ color: '#fff', marginBottom: '8px' }}>No matching receipts found</h3>
-          <p style={{ maxWidth: '400px', margin: '0 auto 16px', fontSize: '0.9rem' }}>
+          <Sparkles size={36} style={{ margin: '0 auto 16px', opacity: 0.5, color: 'var(--accent-amber)' }} />
+          <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px', fontWeight: 800 }}>No matching receipts found</h3>
+          <p style={{ maxWidth: '400px', margin: '0 auto 16px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
             Try clearing your search query or switching category filters to uncover more digital moments.
           </p>
           <button

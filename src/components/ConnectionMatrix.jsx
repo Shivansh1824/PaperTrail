@@ -75,7 +75,7 @@ export default function ConnectionMatrix({
                 THE RIPPLE CANVAS • SYNAPSE DISCOVERY ENGINE
               </span>
             </div>
-            <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#fff' }}>
+            <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--text-primary)' }}>
               The Anatomy of Coincidence
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '650px' }}>
@@ -98,9 +98,10 @@ export default function ConnectionMatrix({
                     borderRadius: 'var(--radius-pill)',
                     fontSize: '0.8rem',
                     fontWeight: 600,
-                    background: isActive ? 'var(--accent-amber)' : 'var(--bg-surface-elevated)',
-                    color: isActive ? '#080a0f' : 'var(--text-primary)',
-                    border: '1px solid var(--bg-surface-border)',
+                    background: isActive ? 'var(--accent-amber)' : '#ffffff',
+                    color: isActive ? '#ffffff' : 'var(--text-primary)',
+                    border: `1px solid ${isActive ? 'var(--accent-amber)' : 'var(--bg-surface-border)'}`,
+                    boxShadow: isActive ? '0 2px 6px rgba(217, 119, 6, 0.2)' : '0 1px 2px rgba(15, 23, 42, 0.04)',
                     transition: 'all 150ms ease',
                     display: 'flex',
                     alignItems: 'center',
@@ -110,8 +111,8 @@ export default function ConnectionMatrix({
                   <span>{preset.label}</span>
                   <span style={{ 
                     fontSize: '0.7rem', 
-                    opacity: 0.7, 
-                    background: isActive ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.08)',
+                    opacity: 0.85, 
+                    background: isActive ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.05)',
                     padding: '1px 6px',
                     borderRadius: '4px'
                   }}>
@@ -126,14 +127,14 @@ export default function ConnectionMatrix({
 
       {/* Story Synthesis Card (Explaining the Correlation) */}
       <div className="matrix-node" style={{
-        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 19, 28, 0.95) 100%)',
-        border: '1px solid rgba(245, 158, 11, 0.25)',
+        background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.08) 0%, var(--bg-surface) 100%)',
+        border: '1px solid rgba(217, 119, 6, 0.28)',
         borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-6)',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: 'var(--space-6)',
-        boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
+        boxShadow: '0 8px 24px -6px rgba(15, 23, 42, 0.06)'
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-amber)', marginBottom: '8px' }}>
@@ -142,7 +143,7 @@ export default function ConnectionMatrix({
               Story Synthesis
             </span>
           </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
             "{activeAnchor?.title}"
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
@@ -151,21 +152,21 @@ export default function ConnectionMatrix({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--bg-surface-border)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Temporal Proximity:</span>
-            <span className="tabular-nums" style={{ fontSize: '0.85rem', color: '#fff', fontWeight: 600 }}>
+            <span className="tabular-nums" style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>
               Within co-occurring 45 min window
             </span>
           </div>
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--bg-surface-border)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Emotional State:</span>
-            <span style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', fontWeight: 600, textTransform: 'capitalize' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', fontWeight: 700, textTransform: 'capitalize' }}>
               {activeAnchor?.mood}
             </span>
           </div>
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--bg-surface-border)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Synapse Cluster:</span>
-            <span style={{ fontSize: '0.85rem', color: 'var(--accent-amber)', fontWeight: 700 }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--accent-amber)', fontWeight: 800 }}>
               {connectedReceipts.length} Cross-Modal Breadcrumbs
             </span>
           </div>
@@ -215,7 +216,7 @@ export default function ConnectionMatrix({
             borderBottom: '1px solid var(--bg-surface-border)',
             paddingBottom: '12px'
           }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Link2 size={18} style={{ color: 'var(--accent-amber)' }} />
               <span>Correlated Fragments in This Moment</span>
             </h3>

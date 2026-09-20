@@ -19,13 +19,14 @@ export default function AudioControl() {
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
-        padding: '8px 12px',
+        padding: '8px 13px',
         borderRadius: 'var(--radius-md)',
-        background: isMuted ? 'rgba(255,255,255,0.04)' : 'rgba(245, 158, 11, 0.12)',
-        border: `1px solid ${isMuted ? 'var(--bg-surface-border)' : 'rgba(245, 158, 11, 0.3)'}`,
-        color: isMuted ? 'var(--text-muted)' : 'var(--accent-amber)',
+        background: isMuted ? 'var(--bg-surface)' : 'rgba(217, 119, 6, 0.1)',
+        border: `1px solid ${isMuted ? 'var(--bg-surface-border)' : 'rgba(217, 119, 6, 0.35)'}`,
+        color: isMuted ? 'var(--text-secondary)' : 'var(--accent-amber)',
         fontSize: '0.8rem',
         fontWeight: 600,
+        boxShadow: isMuted ? '0 1px 2px rgba(15, 23, 42, 0.04)' : '0 2px 6px rgba(217, 119, 6, 0.15)',
         transition: 'all 200ms ease'
       }}
       title={isMuted ? 'Unmute procedural soundscapes' : 'Mute procedural soundscapes'}
@@ -34,7 +35,7 @@ export default function AudioControl() {
       
       {/* Animated Sound Waveform Bars */}
       {!isMuted ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '12px' }}>
           <span className="audio-bar bar-1" />
           <span className="audio-bar bar-2" />
           <span className="audio-bar bar-3" />

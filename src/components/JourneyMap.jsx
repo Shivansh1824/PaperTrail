@@ -75,7 +75,7 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
             DIGITAL JOURNEY ATLAS • 2018 MACRO TIMELINE
           </span>
         </div>
-        <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#fff' }}>
+        <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--text-primary)' }}>
           The Emotional Trajectory of a Year
         </h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '720px' }}>
@@ -96,9 +96,10 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
                 key={ms.period}
                 onClick={() => setActivePhaseIndex(idx)}
                 style={{
-                  background: isSelected ? ms.color : 'var(--bg-surface-elevated)',
-                  color: isSelected ? '#080a0f' : 'var(--text-primary)',
-                  border: `1px solid ${isSelected ? ms.color : 'var(--bg-surface-border)'}`,
+                  background: isSelected ? '#ffffff' : 'var(--bg-surface-elevated)',
+                  color: isSelected ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  border: `2px solid ${isSelected ? ms.color : 'var(--bg-surface-border)'}`,
+                  boxShadow: isSelected ? '0 4px 12px rgba(15, 23, 42, 0.08)' : 'none',
                   borderRadius: 'var(--radius-lg)',
                   padding: '14px 16px',
                   textAlign: 'left',
@@ -110,7 +111,7 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
                   fontSize: '0.75rem', 
                   fontFamily: 'var(--font-mono)', 
                   fontWeight: 700,
-                  opacity: isSelected ? 0.9 : 0.6 
+                  color: isSelected ? ms.color : 'var(--text-muted)'
                 }}>
                   {ms.period}
                 </div>
@@ -118,14 +119,16 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
                   fontSize: '0.95rem', 
                   fontWeight: 800, 
                   marginTop: '4px',
-                  lineHeight: 1.25 
+                  lineHeight: 1.25,
+                  color: 'var(--text-primary)'
                 }}>
                   {ms.phase.split(':')[1]}
                 </div>
                 <div style={{ 
                   fontSize: '0.75rem', 
                   marginTop: '6px',
-                  opacity: isSelected ? 0.9 : 0.7 
+                  color: 'var(--text-muted)',
+                  fontWeight: 600
                 }}>
                   Intensity: {ms.intensity}% • {ms.receiptCount} Fragments
                 </div>
@@ -141,16 +144,17 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
         border: '1px solid var(--bg-surface-border)',
         borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-6)',
-        position: 'relative'
+        position: 'relative',
+        boxShadow: '0 4px 14px rgba(15, 23, 42, 0.03)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Activity size={18} style={{ color: activePhase.color }} />
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff' }}>
-              Digital Activity & Emotional Velocity Curve
+            <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+              Digital Activity &amp; Emotional Velocity Curve
             </h3>
           </div>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>
             Aggregated across 184 cross-modal receipts
           </span>
         </div>
@@ -160,17 +164,17 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
           <svg viewBox="0 0 800 120" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
             <defs>
               <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="hsl(200, 85%, 55%)" />
-                <stop offset="35%" stopColor="hsl(265, 80%, 65%)" />
-                <stop offset="70%" stopColor="hsl(340, 85%, 60%)" />
-                <stop offset="100%" stopColor="hsl(35, 95%, 55%)" />
+                <stop offset="0%" stopColor="hsl(200, 85%, 50%)" />
+                <stop offset="35%" stopColor="hsl(265, 80%, 58%)" />
+                <stop offset="70%" stopColor="hsl(340, 85%, 55%)" />
+                <stop offset="100%" stopColor="hsl(35, 95%, 50%)" />
               </linearGradient>
             </defs>
 
             {/* Grid horizontal guidelines */}
-            <line x1="0" y1="30" x2="800" y2="30" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-            <line x1="0" y1="70" x2="800" y2="70" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-            <line x1="0" y1="110" x2="800" y2="110" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
+            <line x1="0" y1="30" x2="800" y2="30" stroke="rgba(0,0,0,0.06)" strokeDasharray="4 4" />
+            <line x1="0" y1="70" x2="800" y2="70" stroke="rgba(0,0,0,0.06)" strokeDasharray="4 4" />
+            <line x1="0" y1="110" x2="800" y2="110" stroke="rgba(0,0,0,0.06)" strokeDasharray="4 4" />
 
             {/* The Smooth Life Journey Curve */}
             <path
@@ -187,7 +191,7 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
               cy={activePhaseIndex === 0 ? 82 : activePhaseIndex === 1 ? 40 : activePhaseIndex === 2 ? 20 : 50}
               r="7"
               fill={activePhase.color}
-              stroke="#080a0f"
+              stroke="#ffffff"
               strokeWidth="3"
             />
           </svg>
@@ -196,13 +200,14 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
 
       {/* Detailed Era Spotlight */}
       <div style={{
-        background: `radial-gradient(ellipse at top right, ${activePhase.color}22 0%, var(--bg-surface) 75%)`,
-        border: `1px solid ${activePhase.color}44`,
+        background: `radial-gradient(ellipse at top right, ${activePhase.color}15 0%, var(--bg-surface) 75%)`,
+        border: `1px solid ${activePhase.color}40`,
         borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-8)',
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--space-6)'
+        gap: 'var(--space-6)',
+        boxShadow: '0 8px 24px -6px rgba(15, 23, 42, 0.06)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
           <div>
@@ -214,7 +219,7 @@ export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConn
             }}>
               {activePhase.period} • {activePhase.vibe}
             </span>
-            <h3 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#fff', marginTop: '6px' }}>
+            <h3 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--text-primary)', marginTop: '6px' }}>
               {activePhase.headline}
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: '8px', maxWidth: '750px', lineHeight: 1.65 }}>

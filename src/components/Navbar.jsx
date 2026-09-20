@@ -3,80 +3,54 @@ import { Scroll, BookOpen, Layers, Printer, Sparkles, Compass } from 'lucide-rea
 import AudioControl from './AudioControl';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receiptCount }) {
+  const tabs = [
+    { id: 'story', label: 'Story Reel', icon: BookOpen, testId: 'nav-story-reel' },
+    { id: 'journey', label: 'Journey Map', icon: Compass, testId: 'nav-journey-map' },
+    { id: 'vault', label: `Receipt Vault (${receiptCount})`, icon: Layers, testId: 'nav-receipt-vault' },
+    { id: 'matrix', label: 'Connection Matrix', icon: Sparkles, testId: 'nav-connection-matrix' }
+  ];
+
   return (
     <header className="navbar" role="banner">
       <div className="navbar-inner">
+        {/* Brand Identity */}
         <div className="brand-logo" data-testid="brand-logo">
-          <div style={{
-            background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-            padding: '8px',
-            borderRadius: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#080a0f',
-            boxShadow: '0 4px 12px rgba(245, 158, 11, 0.35)'
-          }}>
-            <Scroll size={22} strokeWidth={2.5} />
+          <div className="brand-icon-box">
+            <Scroll size={20} strokeWidth={2.5} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontWeight: 800, letterSpacing: '-0.03em', fontSize: '1.25rem' }}>
-                PaperTrail
-              </span>
+              <span className="brand-title">PaperTrail</span>
               <span className="brand-badge">2018 ARCHIVE</span>
             </div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
-              The Archaeology of a Digital Soul
+            <p className="brand-subtitle">
+              The Archaeology of a Digital Soul • 100% Client-Side
             </p>
           </div>
         </div>
 
-        {/* Mode Navigation */}
+        {/* View Navigation Switcher */}
         <nav className="nav-tabs" aria-label="Main Navigation" role="navigation">
-          <button
-            data-testid="nav-story-reel"
-            aria-label="Story Reel Mode"
-            className={`nav-tab-btn ${activeTab === 'story' ? 'active' : ''}`}
-            onClick={() => setActiveTab('story')}
-          >
-            <BookOpen size={16} />
-            <span>Story Reel</span>
-          </button>
-
-          <button
-            data-testid="nav-journey-map"
-            aria-label="Digital Journey Map"
-            className={`nav-tab-btn ${activeTab === 'journey' ? 'active' : ''}`}
-            onClick={() => setActiveTab('journey')}
-          >
-            <Compass size={16} />
-            <span>Journey Map</span>
-          </button>
-
-          <button
-            data-testid="nav-receipt-vault"
-            aria-label="Receipt Vault Explorer"
-            className={`nav-tab-btn ${activeTab === 'vault' ? 'active' : ''}`}
-            onClick={() => setActiveTab('vault')}
-          >
-            <Layers size={16} />
-            <span>Receipt Vault ({receiptCount})</span>
-          </button>
-
-          <button
-            data-testid="nav-connection-matrix"
-            aria-label="Connection Matrix Synapse Explorer"
-            className={`nav-tab-btn ${activeTab === 'matrix' ? 'active' : ''}`}
-            onClick={() => setActiveTab('matrix')}
-          >
-            <Sparkles size={16} />
-            <span>Connection Matrix</span>
-          </button>
+          {tabs.map(({ id, label, icon: Icon, testId }) => {
+            const isActive = activeTab === id;
+            return (
+              <button
+                key={id}
+                data-testid={testId}
+                aria-label={label}
+                aria-current={isActive ? 'page' : undefined}
+                className={`nav-tab-btn ${isActive ? 'active' : ''}`}
+                onClick={() => setActiveTab(id)}
+              >
+                <Icon size={15} strokeWidth={isActive ? 2.4 : 2} />
+                <span>{label}</span>
+              </button>
+            );
+          })}
         </nav>
 
-        {/* Action Controls: Audio & Print */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* Header Actions: Audio Control + Print Receipt */}
+        <div className="navbar-actions">
           <AudioControl />
           <button
             data-testid="nav-print-receipt"
@@ -85,7 +59,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
             onClick={onOpenPrinter}
             title="Generate a physical-style summary receipt"
           >
-            <Printer size={16} />
+            <Printer size={15} strokeWidth={2.2} />
             <span>Print Receipt</span>
           </button>
         </div>

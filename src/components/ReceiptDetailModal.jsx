@@ -51,7 +51,7 @@ export default function ReceiptDetailModal({
                 <span>{receipt.type}</span>
               </span>
               <span style={{ 
-                background: 'rgba(255, 255, 255, 0.08)', 
+                background: 'rgba(0, 0, 0, 0.05)', 
                 padding: '2px 8px', 
                 borderRadius: '4px',
                 fontSize: '0.75rem',
@@ -62,7 +62,7 @@ export default function ReceiptDetailModal({
               </span>
             </div>
 
-            <h2 style={{ fontSize: 'var(--text-xl)', color: '#fff', fontWeight: 800 }}>
+            <h2 style={{ fontSize: 'var(--text-xl)', color: 'var(--text-primary)', fontWeight: 800 }}>
               {receipt.title}
             </h2>
           </div>
@@ -74,7 +74,7 @@ export default function ReceiptDetailModal({
               border: '1px solid var(--bg-surface-border)',
               borderRadius: '50%',
               padding: '8px',
-              color: 'var(--text-muted)'
+              color: 'var(--text-secondary)'
             }}
           >
             <X size={18} />
@@ -92,32 +92,32 @@ export default function ReceiptDetailModal({
           border: '1px solid var(--bg-surface-border)'
         }}>
           <div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Timestamp</div>
-            <div className="tabular-nums" style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600, marginTop: '2px' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Timestamp</div>
+            <div className="tabular-nums" style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 700, marginTop: '2px' }}>
               {formattedDate}
             </div>
-            <div className="tabular-nums" style={{ fontSize: '0.8rem', color: 'var(--accent-amber)' }}>
+            <div className="tabular-nums" style={{ fontSize: '0.8rem', color: 'var(--accent-amber)', fontWeight: 700 }}>
               {formattedTime}
             </div>
           </div>
 
           <div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Financial Outlay</div>
-            <div className="tabular-nums" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 700, marginTop: '2px' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Financial Outlay</div>
+            <div className="tabular-nums" style={{ fontSize: '1.1rem', color: 'var(--text-primary)', fontWeight: 800, marginTop: '2px' }}>
               {receipt.amount > 0 ? `₹${receipt.amount.toLocaleString('en-IN')}` : '₹0.00 (Non-Financial)'}
             </div>
           </div>
 
           <div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Category</div>
-            <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600, marginTop: '2px' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Category</div>
+            <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 700, marginTop: '2px', textTransform: 'capitalize' }}>
               {receipt.category}
             </div>
           </div>
 
           <div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Emotional State</div>
-            <div style={{ fontSize: '0.9rem', color: 'var(--accent-cyan)', fontWeight: 600, textTransform: 'capitalize', marginTop: '2px' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Emotional State</div>
+            <div style={{ fontSize: '0.9rem', color: 'var(--accent-cyan)', fontWeight: 700, textTransform: 'capitalize', marginTop: '2px' }}>
               {receipt.mood}
             </div>
           </div>
@@ -132,10 +132,12 @@ export default function ReceiptDetailModal({
             color: 'var(--text-primary)', 
             fontSize: '1rem', 
             lineHeight: 1.6,
-            background: 'rgba(255, 255, 255, 0.02)',
+            background: 'var(--bg-surface-elevated)',
             padding: '12px 16px',
             borderRadius: 'var(--radius-sm)',
-            borderLeft: '3px solid var(--accent-amber)'
+            borderLeft: '4px solid var(--accent-amber)',
+            border: '1px solid var(--bg-surface-border)',
+            borderLeftWidth: '4px'
           }}>
             "{receipt.significance}"
           </p>
@@ -148,7 +150,8 @@ export default function ReceiptDetailModal({
               Raw Activity Parameters
             </h3>
             <div style={{
-              background: 'rgba(0,0,0,0.3)',
+              background: 'var(--bg-surface-elevated)',
+              border: '1px solid var(--bg-surface-border)',
               padding: '12px',
               borderRadius: 'var(--radius-sm)',
               fontFamily: 'var(--font-mono)',
@@ -159,7 +162,7 @@ export default function ReceiptDetailModal({
               {Object.entries(receipt.details).map(([k, v]) => (
                 <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0' }}>
                   <span style={{ color: 'var(--text-muted)' }}>{k}:</span>
-                  <span style={{ color: '#fff' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</span>
+                  <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{Array.isArray(v) ? v.join(', ') : String(v)}</span>
                 </div>
               ))}
             </div>
@@ -184,7 +187,7 @@ export default function ReceiptDetailModal({
                   gap: '4px',
                   color: 'var(--accent-amber)',
                   fontSize: '0.8rem',
-                  fontWeight: 600
+                  fontWeight: 700
                 }}
               >
                 <span>Open in Matrix</span>
@@ -201,11 +204,12 @@ export default function ReceiptDetailModal({
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    background: 'var(--bg-surface-elevated)',
+                    background: '#ffffff',
                     border: '1px solid var(--bg-surface-border)',
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-sm)',
                     cursor: 'pointer',
+                    boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)',
                     transition: 'all 150ms ease'
                   }}
                 >
@@ -213,11 +217,11 @@ export default function ReceiptDetailModal({
                     <span className={`badge badge-${item.type}`} style={{ padding: '2px 6px' }}>
                       {item.type}
                     </span>
-                    <span style={{ fontSize: '0.85rem', color: '#fff', fontWeight: 500 }}>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>
                       {item.title}
                     </span>
                   </div>
-                  <span className="tabular-nums" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span className="tabular-nums" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
                     {item.amount > 0 ? `₹${item.amount}` : item.timeOfDay}
                   </span>
                 </div>
