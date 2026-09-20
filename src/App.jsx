@@ -26,6 +26,9 @@ export default function App() {
 
   return (
     <div className="app-container">
+      {/* Skip to Main Content for Accessibility */}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -35,7 +38,7 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="main-content" role="main">
+      <main id="main-content" className="main-content" role="main" tabIndex="-1">
         {activeTab === 'story' && (
           <StoryReel
             chapters={chapters}

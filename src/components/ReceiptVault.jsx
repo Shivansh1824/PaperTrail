@@ -7,6 +7,12 @@ const ALL_TYPES = [
   'searches', 'notes', 'photos', 'messages', 'events'
 ];
 
+// Sanitize search query to prevent XSS / malicious control patterns
+const sanitizeQuery = (input) => {
+  if (typeof input !== 'string') return '';
+  return input.replace(/[<>'"`;(){}[\]\\/]/g, '').slice(0, 100);
+};
+
 export default function ReceiptVault({ 
   receipts, 
   onSelectReceipt, 
@@ -19,6 +25,8 @@ export default function ReceiptVault({
 
   // Filter and sort logic
   const filteredReceipts = useMemo(() => {
+    const cleanQuery = sanitizeQuery(searchQuery).toLowerCase().trim();
+
     return receipts.filter((r) => {
       // 1. Type match
       if (selectedType !== 'all' && r.type !== selectedType) {
@@ -34,12 +42,11 @@ export default function ReceiptVault({
       }
 
       // 3. Search query
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        const matchesTitle = r.title.toLowerCase().includes(query);
-        const matchesCat = r.category.toLowerCase().includes(query);
-        const matchesSig = r.significance.toLowerCase().includes(query);
-        const matchesMood = r.mood.toLowerCase().includes(query);
+      if (cleanQuery) {
+        const matchesTitle = r.title.toLowerCase().includes(cleanQuery);
+        const matchesCat = r.category.toLowerCase().includes(cleanQuery);
+        const matchesSig = r.significance.toLowerCase().includes(cleanQuery);
+        const matchesMood = r.mood.toLowerCase().includes(cleanQuery);
         if (!matchesTitle && !matchesCat && !matchesSig && !matchesMood) {
           return false;
         }

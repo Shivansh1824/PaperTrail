@@ -1,12 +1,14 @@
 {
-  "name": "temp_vite",
+  "name": "papertrail",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Your Life, In Receipts — WebRush 6-Hour Frontend Hackathon",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "test": "node --test tests/*.test.js",
     "preview": "vite preview"
   },
   "dependencies": {

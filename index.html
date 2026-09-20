@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PaperTrail — Your Life, In Receipts</title>
     <meta name="description" content="An interactive frontend experience transforming disconnected digital fragments—2 AM songs, transit tickets, and midnight searches—into an emotional life chronicle." />
+    <meta name="theme-color" content="#f6f5f0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Open Graph & Social Cards -->
+    <meta property="og:title" content="PaperTrail — Your Life, In Receipts" />
+    <meta property="og:description" content="An interactive frontend experience transforming disconnected digital fragments—2 AM songs, transit tickets, and midnight searches—into an emotional life chronicle." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
     
     <!-- Google Fonts: Plus Jakarta Sans, Space Grotesk & Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +22,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   </head>
   <body>
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: sans-serif;">
+        <h2>JavaScript Required</h2>
+        <p>PaperTrail requires JavaScript to generate the interactive receipt vault, audio soundscapes, and story reel.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

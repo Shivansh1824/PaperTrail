@@ -44,7 +44,7 @@ class SoothingAudioSynthesizer {
       try {
         if (node.stop) node.stop();
         if (node.disconnect) node.disconnect();
-      } catch (e) {}
+      } catch {}
     });
     this.activeNodes = [];
   }
@@ -123,7 +123,7 @@ class SoothingAudioSynthesizer {
 
       osc.start(now);
       osc.stop(now + 0.045);
-    } catch (e) {}
+    } catch {}
   }
 
   // Very gentle whisper for thermal paper feed
@@ -146,7 +146,7 @@ class SoothingAudioSynthesizer {
 
       osc.start(now);
       osc.stop(now + 0.085);
-    } catch (e) {}
+    } catch {}
   }
 
   // Soft paper rustle
@@ -177,7 +177,7 @@ class SoothingAudioSynthesizer {
       gain.connect(this.masterGain);
 
       noise.start(now);
-    } catch (e) {}
+    } catch {}
   }
 }
 
