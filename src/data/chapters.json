@@ -1,0 +1,98 @@
+[
+  {
+    "id": "ch-1",
+    "number": "01",
+    "title": "The Midnight Hustler",
+    "subtitle": "2:00 AM \u2014 4:30 AM",
+    "tagline": "When caffeine, indie rock, and insomnia build a future.",
+    "description": "Between midnight data booster top-ups and infinite M83 loops, the receipts reveal a season of relentless late-night creation, self-doubt, and quiet grit.",
+    "themeColor": "hsl(265, 80%, 65%)",
+    "leadReceiptId": "rec-101",
+    "stats": {
+      "topArtist": "M83 & MGMT",
+      "midnightHours": "42 hrs logged",
+      "emergencyRecharges": "\u20b957 spent",
+      "dominantEmotion": "Insomniac Ambition"
+    },
+    "keyMoments": [
+      "rec-101",
+      "rec-102",
+      "rec-103",
+      "rec-104",
+      "rec-105",
+      "rec-106"
+    ]
+  },
+  {
+    "id": "ch-2",
+    "number": "02",
+    "title": "The Daily Commute & The Grind",
+    "subtitle": "7:00 AM \u2014 1:30 PM",
+    "tagline": "24.5 kilometers on the local line, two plates of idli, and Arctic Monkeys.",
+    "description": "Every weekday told the exact same story: local train tickets from Place 5 to Place 0, breakfast bought 53 seconds before departure, and staring out rainy windows.",
+    "themeColor": "hsl(200, 85%, 55%)",
+    "leadReceiptId": "rec-201",
+    "stats": {
+      "totalTrainDistance": "1,180 km",
+      "quickSnacks": "\u20b9360",
+      "commuteSoundtrack": "Arctic Monkeys \u2014 AM",
+      "dominantEmotion": "Quiet Persistence"
+    },
+    "keyMoments": [
+      "rec-201",
+      "rec-202",
+      "rec-203",
+      "rec-204",
+      "rec-205",
+      "rec-206"
+    ]
+  },
+  {
+    "id": "ch-3",
+    "number": "03",
+    "title": "The Festival Homecoming",
+    "subtitle": "September Festive Season",
+    "tagline": "The sacred smell of marigolds, \u20b9251 Ganesh idol, and reunion.",
+    "description": "When the screen turned off and family gathered. The data reveals a dramatic shift: acoustic ragas replaced synth loops, sweets replaced fast food, and family support arrived.",
+    "themeColor": "hsl(35, 95%, 55%)",
+    "leadReceiptId": "rec-301",
+    "stats": {
+      "festiveSpend": "\u20b9671",
+      "familyVisits": "4 days",
+      "acousticHours": "18 hrs",
+      "dominantEmotion": "Grounded Warmth"
+    },
+    "keyMoments": [
+      "rec-301",
+      "rec-302",
+      "rec-303",
+      "rec-304",
+      "rec-305",
+      "rec-306"
+    ]
+  },
+  {
+    "id": "ch-4",
+    "number": "04",
+    "title": "The Digital Escapism & Recharge",
+    "subtitle": "Weekend Evenings",
+    "tagline": "Netflix renewals, HBR subscriptions, and late-night food deliveries.",
+    "description": "The delicate balance between high-minded ambition (reading HBR) and total digital decompression (binging shows and streaming nostalgic MGMT anthems).",
+    "themeColor": "hsl(340, 85%, 60%)",
+    "leadReceiptId": "rec-401",
+    "stats": {
+      "subscriptions": "\u20b9482",
+      "groupMeals": "\u20b9650",
+      "weekendLoops": "Kids by MGMT",
+      "dominantEmotion": "Yearning for Balance"
+    },
+    "keyMoments": [
+      "rec-401",
+      "rec-402",
+      "rec-403",
+      "rec-404",
+      "rec-405",
+      "rec-406"
+    ]
+  }
+]

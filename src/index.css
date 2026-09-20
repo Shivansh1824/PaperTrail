@@ -1,0 +1,413 @@
+/* ==========================================================================
+   PAPERTRAIL DESIGN SYSTEM — THERMAL PAPER MEETS DARK DIGITAL ARCHAEOLOGY
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* Typography Scale (Triplet: size / line-height / letter-spacing) */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.8rem);
+  --text-sm: clamp(0.85rem, 0.8rem + 0.25vw, 0.92rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+  --text-xl: clamp(1.3rem, 1.15rem + 0.8vw, 1.6rem);
+  --text-2xl: clamp(1.6rem, 1.35rem + 1.2vw, 2.1rem);
+  --text-3xl: clamp(2.1rem, 1.7rem + 2vw, 3rem);
+  --text-4xl: clamp(2.8rem, 2.1rem + 3vw, 4.2rem);
+
+  /* Spacing Scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+
+  /* Color System — Atmospheric Dark Mode */
+  --bg-app: #080a0f;
+  --bg-surface: #0f131c;
+  --bg-surface-elevated: #161c2a;
+  --bg-surface-border: #232b3e;
+
+  /* Text colors */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-faint: #475569;
+
+  /* Authentic Thermal Receipt Paper Palette */
+  --paper-bg: #f9f8f3;
+  --paper-bg-aged: #f3efe6;
+  --paper-ink: #191919;
+  --paper-ink-muted: #4e4e4a;
+  --paper-border: #e2ddd0;
+  --paper-crease: rgba(0, 0, 0, 0.05);
+  --paper-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(0, 0, 0, 0.25);
+
+  /* Narrative & Category Accents */
+  --accent-amber: #f59e0b;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #a855f7;
+  --accent-rose: #f43f5e;
+  --accent-emerald: #10b981;
+  --accent-blue: #3b82f6;
+
+  /* Borders & Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms var(--ease-spring);
+  --transition-normal: 250ms var(--ease-spring);
+  --transition-slow: 450ms var(--ease-spring);
+}
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Tabular figures for monospace counts and amounts */
+.tabular-nums {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   TACTILE THERMAL RECEIPT STYLES
+   ========================================================================== */
+
+.receipt-card {
+  position: relative;
+  background: var(--paper-bg);
+  color: var(--paper-ink);
+  font-family: var(--font-mono);
+  padding: var(--space-6) var(--space-5);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--paper-shadow);
+  border-top: 1px solid var(--paper-border);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  user-select: none;
+}
+
+.receipt-card:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5), 0 8px 16px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* Jagged Zig-Zag Tear Effect at Bottom of Receipt */
+.receipt-tear-bottom {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-image: radial-gradient(circle at 10px -5px, transparent 12px, var(--paper-bg) 13px);
+  background-size: 20px 20px;
+  background-repeat: repeat-x;
+}
+
+.receipt-tear-top {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-image: radial-gradient(circle at 10px 15px, transparent 12px, var(--paper-bg) 13px);
+  background-size: 20px 20px;
+  background-repeat: repeat-x;
+}
+
+/* Monospace Barcode Simulation */
+.receipt-barcode {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 38px;
+  gap: 2px;
+  margin: var(--space-4) 0;
+  opacity: 0.85;
+}
+
+.barcode-bar {
+  background-color: var(--paper-ink);
+  height: 100%;
+}
+
+.barcode-bar.thin { width: 1.5px; }
+.barcode-bar.medium { width: 3px; }
+.barcode-bar.thick { width: 5.5px; }
+.barcode-bar.spacer { width: 3px; background: transparent; }
+
+/* Itemized dotted divider */
+.receipt-divider-dotted {
+  border-bottom: 2px dashed var(--paper-border);
+  margin: var(--space-3) 0;
+  width: 100%;
+}
+
+.receipt-divider-solid {
+  border-bottom: 1.5px solid var(--paper-ink);
+  margin: var(--space-3) 0;
+  width: 100%;
+}
+
+/* ==========================================================================
+   APP SHELL & LAYOUT
+   ========================================================================== */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-12);
+}
+
+/* Glassmorphic Navigation Bar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 10, 15, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--space-4) var(--space-6);
+}
+
+.navbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* Nav View Switcher Tabs */
+.nav-tabs {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-border);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  gap: 2px;
+}
+
+.nav-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.nav-tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-tab-btn.active {
+  color: #fff;
+  background: var(--bg-surface-elevated);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+}
+
+/* Action Button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--accent-amber);
+  color: #080a0f;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+  background: #fbbf24;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   CATEGORY BADGES & TAGS
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-music { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+.badge-places { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+.badge-purchases { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-entertainment { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+.badge-searches { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-notes { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+.badge-photos { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-messages { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+.badge-events { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+/* ==========================================================================
+   MODAL & OVERLAY
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: fadeIn 200ms var(--ease-spring);
+}
+
+.modal-content {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  animation: scaleUp 250ms var(--ease-spring);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .navbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-tabs {
+    overflow-x: auto;
+    width: 100%;
+  }
+  .nav-tab-btn {
+    padding: 8px 12px;
+    font-size: var(--text-xs);
+    white-space: nowrap;
+  }
+  .main-content {
+    padding: var(--space-4) var(--space-4) var(--space-10);
+  }
+}
