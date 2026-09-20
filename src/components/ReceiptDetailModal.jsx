@@ -1,8 +1,5 @@
 import React from 'react';
-import { 
-  X, Clock, MapPin, Tag, Link2, Sparkles, 
-  Share2, ArrowUpRight 
-} from 'lucide-react';
+import { X, Tag, ArrowUpRight } from 'lucide-react';
 import { typeIcons } from './ReceiptCard';
 
 export default function ReceiptDetailModal({ 

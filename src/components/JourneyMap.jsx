@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { 
-  Compass, TrendingUp, Calendar, MapPin, Music, 
-  Sparkles, ArrowRight, Activity, Flame, Heart 
-} from 'lucide-react';
+import { Compass, Activity } from 'lucide-react';
 import ReceiptCard from './ReceiptCard';
 
-export default function JourneyMap({ allReceipts, chapters, onSelectReceipt, onExploreConnections }) {
+export default function JourneyMap({ allReceipts, onSelectReceipt, onExploreConnections }) {
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
 
   const journeyMilestones = [

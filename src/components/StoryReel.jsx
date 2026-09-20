@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { 
-  Sparkles, ArrowRight, ArrowLeft, Clock, TrendingUp, 
-  Heart, Zap, Compass, CheckCircle2, Play, Volume2 
-} from 'lucide-react';
+import { Sparkles, ArrowRight, ArrowLeft, Clock, TrendingUp } from 'lucide-react';
 import ReceiptCard from './ReceiptCard';
 import { soundEngine } from '../utils/audioSynthesizer';
 

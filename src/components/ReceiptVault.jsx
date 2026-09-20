@@ -1,8 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  Search, Moon, Sun, Filter, SlidersHorizontal, 
-  ArrowUpDown, X, Sparkles 
-} from 'lucide-react';
+import { Search, Moon, Sun, Filter, X, Sparkles } from 'lucide-react';
 import ReceiptCard, { typeIcons } from './ReceiptCard';
 
 const ALL_TYPES = [

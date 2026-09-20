@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { 
-  Sparkles, Link2, ArrowRight, Compass, Share2, 
-  Layers, Zap, Clock, Info, Activity, BrainCircuit 
-} from 'lucide-react';
+import { Link2, Activity, BrainCircuit } from 'lucide-react';
 import ReceiptCard from './ReceiptCard';
 import { soundEngine } from '../utils/audioSynthesizer';
 

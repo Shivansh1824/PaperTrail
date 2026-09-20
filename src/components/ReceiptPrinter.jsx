@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import confetti from 'canvas-confetti';
-import { 
-  Printer, Check, Download, Share2, Sparkles, 
-  X, RefreshCw, Heart, Music, Coffee, MapPin, ShieldCheck 
-} from 'lucide-react';
+import { Printer, Download, X, RefreshCw, ShieldCheck } from 'lucide-react';
 import { soundEngine } from '../utils/audioSynthesizer';
 
 export default function ReceiptPrinter({ isOpen, onClose, allReceipts }) {

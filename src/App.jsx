@@ -48,7 +48,6 @@ export default function App() {
         {activeTab === 'journey' && (
           <JourneyMap
             allReceipts={allReceipts}
-            chapters={chapters}
             onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
             onExploreConnections={handleExploreConnections}
           />
