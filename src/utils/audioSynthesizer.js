@@ -1,56 +1,55 @@
 // ============================================================================
-// PAPERTRAIL PROCEDURAL AUDIO SYNTHESIZER (WEB AUDIO API)
-// 100% Code-based, zero external dependencies, works offline and reliably.
+// PAPERTRAIL SOOTHING AMBIENT SOUND ENGINE (WEB AUDIO API)
+// Pure, warm, calming harmonic sine waves & soft lo-fi frequencies.
+// Very gentle background levels (never harsh, never buzzy).
 // ============================================================================
 
-class AudioSynthesizer {
+class SoothingAudioSynthesizer {
   constructor() {
     this.ctx = null;
-    this.isMuted = false;
+    this.isMuted = true; // Start muted by default
     this.currentChapterId = null;
-    this.ambientNodes = [];
+    this.activeNodes = [];
     this.masterGain = null;
     this.isInitialized = false;
   }
 
-  // Initialize on first user interaction to comply with browser autoplay policy
   init() {
     if (this.isInitialized) return;
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioContext();
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+      // Very soft, gentle ambient volume (5% master)
+      this.masterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
       this.masterGain.connect(this.ctx.destination);
       this.isInitialized = true;
     } catch (e) {
-      console.warn('Web Audio API not supported or blocked:', e);
+      console.warn('Web Audio API not supported:', e);
     }
   }
 
   toggleMute() {
+    if (!this.isInitialized) this.init();
     this.isMuted = !this.isMuted;
     if (this.masterGain && this.ctx) {
-      this.masterGain.gain.setTargetAtTime(
-        this.isMuted ? 0 : 0.15,
-        this.ctx.currentTime,
-        0.05
-      );
+      const targetVolume = this.isMuted ? 0 : 0.06;
+      this.masterGain.gain.setTargetAtTime(targetVolume, this.ctx.currentTime, 0.1);
     }
     return this.isMuted;
   }
 
   stopAmbient() {
-    this.ambientNodes.forEach(node => {
+    this.activeNodes.forEach(node => {
       try {
         if (node.stop) node.stop();
         if (node.disconnect) node.disconnect();
       } catch (e) {}
     });
-    this.ambientNodes = [];
+    this.activeNodes = [];
   }
 
-  // Chapter-specific procedural soundscapes
+  // Play very soft, meditative ambient chords tailored to each chapter
   playChapterAmbiance(chapterId) {
     if (!this.isInitialized) this.init();
     if (!this.ctx || this.currentChapterId === chapterId) return;
@@ -63,175 +62,123 @@ class AudioSynthesizer {
 
     const now = this.ctx.currentTime;
 
-    // Chapter 1: The Midnight Hustler (Low-pass ambient drone + midnight rain hiss)
-    if (chapterId === 'ch-1') {
-      const osc1 = this.ctx.createOscillator();
-      const osc2 = this.ctx.createOscillator();
-      const filter = this.ctx.createBiquadFilter();
-      const gain = this.ctx.createGain();
+    // Harmonic chord palettes (gentle pentatonic frequencies for deep calm)
+    const chordPresets = {
+      // Chapter 1 (Midnight): Soft F Major 9th (Dreamy, nocturnal, ambient)
+      'ch-1': [174.61, 220.00, 261.63, 329.63], 
+      // Chapter 2 (Commute): Warm D Major (Gentle morning sunrise)
+      'ch-2': [146.83, 220.00, 293.66, 369.99], 
+      // Chapter 3 (Homecoming): Pure C Major (Grounded, meditative chimes)
+      'ch-3': [130.81, 196.00, 261.63, 329.63], 
+      // Chapter 4 (Escapism): E Minor 7th (Warm twilight relaxation)
+      'ch-4': [164.81, 196.00, 246.94, 293.66] 
+    };
 
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(55, now); // A1 note
-      osc2.type = 'sawtooth';
-      osc2.frequency.setValueAtTime(110, now); // A2 note
+    const frequencies = chordPresets[chapterId] || chordPresets['ch-1'];
 
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(220, now);
-
-      gain.gain.setValueAtTime(0.04, now);
-
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.masterGain);
-
-      osc1.start(now);
-      osc2.start(now);
-      this.ambientNodes.push(osc1, osc2, filter, gain);
-    }
-
-    // Chapter 2: The Daily Commute (Rhythmic subtle train pulse & low rumble)
-    else if (chapterId === 'ch-2') {
+    frequencies.forEach((freq, idx) => {
       const osc = this.ctx.createOscillator();
-      const filter = this.ctx.createBiquadFilter();
       const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
 
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(73.42, now); // D2 note
+      // Pure gentle sine waves (no harsh edges)
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+
+      // Lowpass filter to ensure silky, smooth sound
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(160, now);
+      filter.frequency.setValueAtTime(400, now);
 
-      // LFO for rhythmic train-track cadence
-      const lfo = this.ctx.createOscillator();
-      const lfoGain = this.ctx.createGain();
-      lfo.frequency.setValueAtTime(1.8, now); // 1.8 Hz click-clack rhythm
-      lfoGain.gain.setValueAtTime(0.03, now);
+      // Gentle fade in
+      const baseGain = 0.012 / (idx + 1);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(baseGain, now + 1.5);
 
-      lfo.connect(gain.gain);
       osc.connect(filter);
       filter.connect(gain);
       gain.connect(this.masterGain);
 
       osc.start(now);
-      lfo.start(now);
-      this.ambientNodes.push(osc, filter, gain, lfo, lfoGain);
-    }
+      this.activeNodes.push(osc, gain, filter);
+    });
+  }
 
-    // Chapter 3: The Festival Homecoming (Resonant acoustic bell chimes)
-    else if (chapterId === 'ch-3') {
-      const freqs = [261.63, 329.63, 392.00, 523.25]; // C major harmonic chime
-      freqs.forEach((freq, idx) => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now);
-
-        gain.gain.setValueAtTime(0.015 / (idx + 1), now);
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-
-        osc.start(now);
-        this.ambientNodes.push(osc, gain);
-      });
-    }
-
-    // Chapter 4: The Digital Escapism (Warm lo-fi tape pad)
-    else if (chapterId === 'ch-4') {
+  // Soft tactile click for UI buttons
+  playClickSound() {
+    if (!this.isInitialized || !this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
       const osc = this.ctx.createOscillator();
-      const filter = this.ctx.createBiquadFilter();
       const gain = this.ctx.createGain();
 
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(130.81, now); // C3
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(350, now);
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(110, now + 0.04);
 
-      gain.gain.setValueAtTime(0.035, now);
-      osc.connect(filter);
-      filter.connect(gain);
+      gain.gain.setValueAtTime(0.015, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
       gain.connect(this.masterGain);
 
       osc.start(now);
-      this.ambientNodes.push(osc, filter, gain);
-    }
+      osc.stop(now + 0.045);
+    } catch (e) {}
   }
 
-  // Tactile SFX: Mechanical thermal printer stepping sound
+  // Very gentle whisper for thermal paper feed
   playPrinterMotorSound() {
-    if (!this.isInitialized) this.init();
-    if (!this.ctx || this.isMuted) return;
+    if (!this.isInitialized || !this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
 
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(90, now);
+      osc.frequency.exponentialRampToValueAtTime(60, now + 0.08);
 
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(140, now);
-    osc.frequency.exponentialRampToValueAtTime(80, now + 0.12);
+      gain.gain.setValueAtTime(0.02, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
 
-    gain.gain.setValueAtTime(0.06, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.connect(gain);
+      gain.connect(this.masterGain);
 
-    osc.connect(gain);
-    gain.connect(this.masterGain);
-
-    osc.start(now);
-    osc.stop(now + 0.13);
+      osc.start(now);
+      osc.stop(now + 0.085);
+    } catch (e) {}
   }
 
-  // Tactile SFX: Receipt tear sound (white noise burst)
+  // Soft paper rustle
   playPaperTearSound() {
-    if (!this.isInitialized) this.init();
-    if (!this.ctx || this.isMuted) return;
+    if (!this.isInitialized || !this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      const bufferSize = this.ctx.sampleRate * 0.08;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
 
-    const now = this.ctx.currentTime;
-    const bufferSize = this.ctx.sampleRate * 0.15;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.4));
+      }
 
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
-    }
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
 
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(800, now);
 
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'highpass';
-    filter.frequency.setValueAtTime(1200, now);
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.03, now);
 
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.08, now);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.masterGain);
 
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.masterGain);
-
-    noise.start(now);
-  }
-
-  // Tactile SFX: Micro UI click
-  playClickSound() {
-    if (!this.isInitialized) this.init();
-    if (!this.ctx || this.isMuted) return;
-
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(800, now);
-    osc.frequency.exponentialRampToValueAtTime(200, now + 0.03);
-
-    gain.gain.setValueAtTime(0.03, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
-
-    osc.connect(gain);
-    gain.connect(this.masterGain);
-
-    osc.start(now);
-    osc.stop(now + 0.035);
+      noise.start(now);
+    } catch (e) {}
   }
 }
 
-export const soundEngine = new AudioSynthesizer();
+export const soundEngine = new SoothingAudioSynthesizer();
