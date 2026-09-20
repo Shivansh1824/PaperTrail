@@ -72,7 +72,9 @@ export default function ConnectionMatrix({
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-amber)', marginBottom: '6px' }}>
               <BrainCircuit size={18} />
               <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-                THE RIPPLE CANVAS • SYNAPSE DISCOVERY ENGIN
+                THE RIPPLE CANVAS • SYNAPSE DISCOVERY ENGINE
+              </span>
+            </div>
             <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: 'var(--text-primary)' }}>
               The Anatomy of Coincidence
             </h2>
