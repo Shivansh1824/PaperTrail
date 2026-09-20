@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { 
   Sparkles, Link2, ArrowRight, Compass, Share2, 
-  Layers, Zap, Clock, Info 
+  Layers, Zap, Clock, Info, Activity, BrainCircuit 
 } from 'lucide-react';
-import ReceiptCard, { typeIcons } from './ReceiptCard';
+import ReceiptCard from './ReceiptCard';
+import { soundEngine } from '../utils/audioSynthesizer';
 
 export default function ConnectionMatrix({ 
   allReceipts, 
@@ -22,23 +23,39 @@ export default function ConnectionMatrix({
     .map(id => allReceipts.find(r => r.id === id))
     .filter(Boolean);
 
-  // Animate nodes when anchor changes
+  // Animate nodes and connection lines when anchor changes
   useEffect(() => {
     if (containerRef.current) {
       gsap.fromTo(
         containerRef.current.querySelectorAll('.matrix-node'),
-        { scale: 0.9, opacity: 0, y: 20 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.45, stagger: 0.08, ease: 'back.out(1.5)' }
+        { scale: 0.92, opacity: 0, y: 15 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'back.out(1.4)' }
       );
+
+      // Animate SVG path drawing
+      const paths = containerRef.current.querySelectorAll('.synapse-line');
+      paths.forEach(path => {
+        const length = path.getTotalLength ? path.getTotalLength() : 300;
+        gsap.fromTo(
+          path,
+          { strokeDasharray: length, strokeDashoffset: length, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.7, duration: 0.8, ease: 'power2.out' }
+        );
+      });
     }
   }, [activeAnchor?.id]);
 
+  const handleSelectAnchor = (receipt) => {
+    soundEngine.playClickSound();
+    onSelectAnchor(receipt);
+  };
+
   // Featured anchor presets to invite exploration
   const featuredAnchors = [
-    { id: 'rec-101', label: '2:14 AM Insomnia Loop' },
-    { id: 'rec-201', label: 'Monsoon Train Commute' },
-    { id: 'rec-301', label: 'Ganesh Pujan Festival' },
-    { id: 'rec-401', label: 'Netflix & Escapism' }
+    { id: 'rec-101', label: '2:14 AM Insomnia Loop', tag: 'Night Owl' },
+    { id: 'rec-201', label: 'Monsoon Train Commute', tag: 'Transit' },
+    { id: 'rec-301', label: 'Ganesh Pujan Festival', tag: 'Family' },
+    { id: 'rec-401', label: 'Netflix & Escapism', tag: 'Leisure' }
   ];
 
   return (
@@ -56,44 +73,104 @@ export default function ConnectionMatrix({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-amber)', marginBottom: '6px' }}>
-              <Sparkles size={18} />
+              <BrainCircuit size={18} />
               <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-                PATTERN WEAVER & DISCOVERY ENGINE
+                THE RIPPLE CANVAS • SYNAPSE DISCOVERY ENGINE
               </span>
             </div>
             <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#fff' }}>
-              The Ripple Network
+              The Anatomy of Coincidence
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '650px' }}>
-              Select any receipt to uncover what else was happening in this person's life at that exact moment.
+              A song played at 2 AM, a ₹19 data recharge, and a frantic search query might appear unrelated. Click any node to reveal the invisible thread connecting them.
             </p>
           </div>
 
           {/* Quick Presets */}
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Explore Presets:</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Curated Synapses:</span>
             {featuredAnchors.map((preset) => {
               const r = allReceipts.find(item => item.id === preset.id);
               const isActive = activeAnchor?.id === preset.id;
               return (
                 <button
                   key={preset.id}
-                  onClick={() => onSelectAnchor(r)}
+                  onClick={() => handleSelectAnchor(r)}
                   style={{
-                    padding: '6px 14px',
+                    padding: '8px 14px',
                     borderRadius: 'var(--radius-pill)',
                     fontSize: '0.8rem',
                     fontWeight: 600,
                     background: isActive ? 'var(--accent-amber)' : 'var(--bg-surface-elevated)',
                     color: isActive ? '#080a0f' : 'var(--text-primary)',
                     border: '1px solid var(--bg-surface-border)',
-                    transition: 'all 150ms ease'
+                    transition: 'all 150ms ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
                   }}
                 >
-                  {preset.label}
+                  <span>{preset.label}</span>
+                  <span style={{ 
+                    fontSize: '0.7rem', 
+                    opacity: 0.7, 
+                    background: isActive ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.08)',
+                    padding: '1px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    {preset.tag}
+                  </span>
                 </button>
               );
             })}
+          </div>
+        </div>
+      </div>
+
+      {/* Story Synthesis Card (Explaining the Correlation) */}
+      <div className="matrix-node" style={{
+        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 19, 28, 0.95) 100%)',
+        border: '1px solid rgba(245, 158, 11, 0.25)',
+        borderRadius: 'var(--radius-xl)',
+        padding: 'var(--space-6)',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 'var(--space-6)',
+        boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-amber)', marginBottom: '8px' }}>
+            <Activity size={16} />
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              Story Synthesis
+            </span>
+          </div>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
+            "{activeAnchor?.title}"
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+            {activeAnchor?.significance}
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
+          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Temporal Proximity:</span>
+            <span className="tabular-nums" style={{ fontSize: '0.85rem', color: '#fff', fontWeight: 600 }}>
+              Within co-occurring 45 min window
+            </span>
+          </div>
+          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Emotional State:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', fontWeight: 600, textTransform: 'capitalize' }}>
+              {activeAnchor?.mood}
+            </span>
+          </div>
+          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Synapse Cluster:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--accent-amber)', fontWeight: 700 }}>
+              {connectedReceipts.length} Cross-Modal Breadcrumbs
+            </span>
           </div>
         </div>
       </div>
@@ -117,10 +194,10 @@ export default function ConnectionMatrix({
             border: '1px solid var(--bg-surface-border)'
           }}>
             <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-amber)', textTransform: 'uppercase' }}>
-              ★ Central Anchor Moment
+              ★ Active Anchor Node
             </span>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              {connectedReceipts.length} Associated Fragments
+              {connectedReceipts.length} Radiating Lines
             </span>
           </div>
 
@@ -130,20 +207,6 @@ export default function ConnectionMatrix({
             onExploreConnections={() => {}}
             isHighlighted={true}
           />
-
-          <div style={{
-            background: 'rgba(245, 158, 11, 0.08)',
-            border: '1px dashed rgba(245, 158, 11, 0.3)',
-            borderRadius: 'var(--radius-md)',
-            padding: '12px',
-            fontSize: '0.85rem',
-            color: 'var(--text-secondary)'
-          }}>
-            <div style={{ fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-              Why this anchor matters:
-            </div>
-            {activeAnchor?.significance}
-          </div>
         </div>
 
         {/* Connected Fragments Cluster */}
@@ -157,10 +220,10 @@ export default function ConnectionMatrix({
           }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Link2 size={18} style={{ color: 'var(--accent-amber)' }} />
-              <span>Correlated Moments in the Same Time Horizon</span>
+              <span>Correlated Fragments in This Moment</span>
             </h3>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Click any card to re-center the matrix
+              Click any card to re-center the universe
             </span>
           </div>
 
@@ -168,14 +231,14 @@ export default function ConnectionMatrix({
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
-              gap: 'var(--space-4)' 
+              gap: 'var(--space-6)' 
             }}>
               {connectedReceipts.map((receipt) => (
                 <div key={receipt.id} className="matrix-node">
                   <ReceiptCard
                     receipt={receipt}
                     onSelect={onSelectReceipt}
-                    onExploreConnections={() => onSelectAnchor(receipt)}
+                    onExploreConnections={() => handleSelectAnchor(receipt)}
                   />
                 </div>
               ))}

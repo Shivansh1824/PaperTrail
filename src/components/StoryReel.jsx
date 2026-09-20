@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { 
   Sparkles, ArrowRight, ArrowLeft, Clock, TrendingUp, 
-  Heart, Zap, Compass, CheckCircle2 
+  Heart, Zap, Compass, CheckCircle2, Play, Volume2 
 } from 'lucide-react';
 import ReceiptCard from './ReceiptCard';
+import { soundEngine } from '../utils/audioSynthesizer';
 
 export default function StoryReel({ 
   chapters, 
@@ -21,8 +22,11 @@ export default function StoryReel({
     .map(id => allReceipts.find(r => r.id === id))
     .filter(Boolean);
 
-  // GSAP transition when chapter changes
+  // GSAP transition & Audio Ambiance when chapter changes
   useEffect(() => {
+    // Play chapter soundscape
+    soundEngine.playChapterAmbiance(currentChapter.id);
+
     if (chapterContainerRef.current) {
       gsap.fromTo(
         chapterContainerRef.current.querySelectorAll('.animate-fade'),

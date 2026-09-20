@@ -1,5 +1,6 @@
 import React from 'react';
 import { Scroll, BookOpen, Layers, Printer, Sparkles } from 'lucide-react';
+import AudioControl from './AudioControl';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receiptCount }) {
   return (
@@ -58,8 +59,9 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
           </button>
         </nav>
 
-        {/* Print Life Receipt CTA */}
-        <div>
+        {/* Action Controls: Audio & Print */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <AudioControl />
           <button
             className="btn-primary"
             onClick={onOpenPrinter}

@@ -3,13 +3,15 @@ import gsap from 'gsap';
 import confetti from 'canvas-confetti';
 import { 
   Printer, Check, Download, Share2, Sparkles, 
-  X, RefreshCw, Heart, Music, Coffee, MapPin 
+  X, RefreshCw, Heart, Music, Coffee, MapPin, ShieldCheck 
 } from 'lucide-react';
+import { soundEngine } from '../utils/audioSynthesizer';
 
 export default function ReceiptPrinter({ isOpen, onClose, allReceipts }) {
   const [isPrinting, setIsPrinting] = useState(false);
   const [hasPrinted, setHasPrinted] = useState(false);
   const receiptPaperRef = useRef(null);
+  const stampRef = useRef(null);
 
   // Aggregated life stats for 2018
   const totalAmount = allReceipts.reduce((acc, r) => acc + (r.amount || 0), 0);
@@ -23,19 +25,41 @@ export default function ReceiptPrinter({ isOpen, onClose, allReceipts }) {
     setIsPrinting(true);
     setHasPrinted(false);
 
+    // Play tactile mechanical motor sound
+    const interval = setInterval(() => {
+      soundEngine.playPrinterMotorSound();
+    }, 250);
+
     if (receiptPaperRef.current) {
       // Reset height
       gsap.set(receiptPaperRef.current, { height: 0, opacity: 1 });
+      if (stampRef.current) {
+        gsap.set(stampRef.current, { scale: 3, opacity: 0 });
+      }
 
       // GSAP thermal paper feed animation
       const tl = gsap.timeline({
         onComplete: () => {
+          clearInterval(interval);
           setIsPrinting(false);
           setHasPrinted(true);
+
+          // Play paper tear sound
+          soundEngine.playPaperTearSound();
+
+          // Animate the red "VERIFIED & AUDITED" stamp with heavy impact
+          if (stampRef.current) {
+            gsap.fromTo(
+              stampRef.current,
+              { scale: 2.5, opacity: 0, rotation: -28 },
+              { scale: 1, opacity: 0.88, rotation: -12, duration: 0.35, ease: 'back.out(2)' }
+            );
+          }
+
           // Trigger celebration confetti
           confetti({
-            particleCount: 80,
-            spread: 70,
+            particleCount: 90,
+            spread: 75,
             origin: { y: 0.6 }
           });
         }
@@ -118,7 +142,7 @@ export default function ReceiptPrinter({ isOpen, onClose, allReceipts }) {
                 boxShadow: isPrinting ? '0 0 10px #f59e0b' : '0 0 8px #10b981'
               }} />
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                {isPrinting ? 'FEEDING PAPER...' : 'READY'}
+                {isPrinting ? 'FEEDING PAPER...' : 'AUDITED'}
               </span>
             </div>
           </div>
@@ -143,9 +167,44 @@ export default function ReceiptPrinter({ isOpen, onClose, allReceipts }) {
             position: 'relative'
           }}
         >
-          <div className="receipt-card" style={{ padding: '24px 20px', margin: '0 auto', width: '100%' }}>
+          <div className="receipt-card" style={{ padding: '26px 20px', margin: '0 auto', width: '100%', position: 'relative' }}>
             {/* Perforations */}
             <div className="receipt-tear-top" />
+
+            {/* Red Ink "AUDITED & VERIFIED" Stamp */}
+            <div 
+              ref={stampRef}
+              style={{
+                position: 'absolute',
+                top: '40px',
+                right: '25px',
+                border: '3px solid #dc2626',
+                color: '#dc2626',
+                borderRadius: '50%',
+                width: '100px',
+                height: '100px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 900,
+                fontSize: '0.65rem',
+                letterSpacing: '0.06em',
+                lineHeight: 1.1,
+                pointerEvents: 'none',
+                opacity: hasPrinted ? 0.88 : 0,
+                transform: 'rotate(-12deg)',
+                boxShadow: 'inset 0 0 4px rgba(220, 38, 38, 0.4)',
+                maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0.8) 100%)'
+              }}
+            >
+              <ShieldCheck size={20} strokeWidth={2.5} style={{ marginBottom: '2px' }} />
+              <div>AUDITED</div>
+              <div>&amp; VERIFIED</div>
+              <div style={{ fontSize: '0.6rem', marginTop: '2px', opacity: 0.8 }}>2018</div>
+            </div>
 
             {/* Receipt Header */}
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
