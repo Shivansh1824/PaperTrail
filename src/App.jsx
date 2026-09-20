@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import StoryReel from './components/StoryReel';
+import JourneyMap from './components/JourneyMap';
 import ReceiptVault from './components/ReceiptVault';
 import ConnectionMatrix from './components/ConnectionMatrix';
 import ReceiptPrinter from './components/ReceiptPrinter';
@@ -11,7 +12,7 @@ import allReceipts from './data/life_receipts.json';
 import chapters from './data/chapters.json';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('story'); // 'story', 'vault', 'matrix'
+  const [activeTab, setActiveTab] = useState('story'); // 'story', 'journey', 'vault', 'matrix'
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [selectedAnchor, setSelectedAnchor] = useState(null);
   const [isPrinterOpen, setIsPrinterOpen] = useState(false);
@@ -34,11 +35,20 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="main-content">
+      <main className="main-content" role="main">
         {activeTab === 'story' && (
           <StoryReel
             chapters={chapters}
             allReceipts={allReceipts}
+            onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
+            onExploreConnections={handleExploreConnections}
+          />
+        )}
+
+        {activeTab === 'journey' && (
+          <JourneyMap
+            allReceipts={allReceipts}
+            chapters={chapters}
             onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
             onExploreConnections={handleExploreConnections}
           />

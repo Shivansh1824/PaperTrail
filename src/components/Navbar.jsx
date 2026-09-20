@@ -1,12 +1,12 @@
 import React from 'react';
-import { Scroll, BookOpen, Layers, Printer, Sparkles } from 'lucide-react';
+import { Scroll, BookOpen, Layers, Printer, Sparkles, Compass } from 'lucide-react';
 import AudioControl from './AudioControl';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receiptCount }) {
   return (
-    <header className="navbar">
+    <header className="navbar" role="banner">
       <div className="navbar-inner">
-        <div className="brand-logo">
+        <div className="brand-logo" data-testid="brand-logo">
           <div style={{
             background: 'linear-gradient(135deg, #f59e0b, #d97706)',
             padding: '8px',
@@ -33,8 +33,10 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
         </div>
 
         {/* Mode Navigation */}
-        <nav className="nav-tabs" aria-label="Main Navigation">
+        <nav className="nav-tabs" aria-label="Main Navigation" role="navigation">
           <button
+            data-testid="nav-story-reel"
+            aria-label="Story Reel Mode"
             className={`nav-tab-btn ${activeTab === 'story' ? 'active' : ''}`}
             onClick={() => setActiveTab('story')}
           >
@@ -43,6 +45,18 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
           </button>
 
           <button
+            data-testid="nav-journey-map"
+            aria-label="Digital Journey Map"
+            className={`nav-tab-btn ${activeTab === 'journey' ? 'active' : ''}`}
+            onClick={() => setActiveTab('journey')}
+          >
+            <Compass size={16} />
+            <span>Journey Map</span>
+          </button>
+
+          <button
+            data-testid="nav-receipt-vault"
+            aria-label="Receipt Vault Explorer"
             className={`nav-tab-btn ${activeTab === 'vault' ? 'active' : ''}`}
             onClick={() => setActiveTab('vault')}
           >
@@ -51,6 +65,8 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
           </button>
 
           <button
+            data-testid="nav-connection-matrix"
+            aria-label="Connection Matrix Synapse Explorer"
             className={`nav-tab-btn ${activeTab === 'matrix' ? 'active' : ''}`}
             onClick={() => setActiveTab('matrix')}
           >
@@ -63,6 +79,8 @@ export default function Navbar({ activeTab, setActiveTab, onOpenPrinter, receipt
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AudioControl />
           <button
+            data-testid="nav-print-receipt"
+            aria-label="Print Thermal Summary Receipt"
             className="btn-primary"
             onClick={onOpenPrinter}
             title="Generate a physical-style summary receipt"

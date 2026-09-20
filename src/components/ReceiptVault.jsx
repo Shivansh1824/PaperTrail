@@ -86,6 +86,8 @@ export default function ReceiptVault({
           }}>
             <Search size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
             <input
+              data-testid="search-input"
+              aria-label="Search receipts by keyword"
               type="text"
               placeholder="Search receipts by track, note, station, or keyword..."
               value={searchQuery}
@@ -104,6 +106,8 @@ export default function ReceiptVault({
             />
             {searchQuery && (
               <button 
+                data-testid="clear-search-btn"
+                aria-label="Clear search input"
                 onClick={() => setSearchQuery('')}
                 style={{ position: 'absolute', right: '12px', color: 'var(--text-muted)' }}
               >
@@ -115,6 +119,8 @@ export default function ReceiptVault({
           {/* Night Owl / Time of Day Toggle */}
           <div style={{ display: 'flex', background: 'var(--bg-surface-elevated)', borderRadius: 'var(--radius-md)', padding: '3px' }}>
             <button
+              data-testid="filter-all-hours"
+              aria-label="Filter all hours"
               onClick={() => setTimeFilter('all')}
               style={{
                 padding: '8px 14px',
@@ -128,6 +134,8 @@ export default function ReceiptVault({
               All Hours
             </button>
             <button
+              data-testid="filter-night-owl"
+              aria-label="Filter Night Owl hours (11 PM to 5 AM)"
               onClick={() => setTimeFilter('night')}
               style={{
                 display: 'flex',
@@ -146,6 +154,8 @@ export default function ReceiptVault({
               <span>Night Owl (2 AM)</span>
             </button>
             <button
+              data-testid="filter-daylight"
+              aria-label="Filter daylight hours"
               onClick={() => setTimeFilter('day')}
               style={{
                 display: 'flex',
@@ -167,6 +177,8 @@ export default function ReceiptVault({
           {/* Sort Selector */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <select
+              data-testid="sort-selector"
+              aria-label="Sort receipts"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               style={{
@@ -200,6 +212,8 @@ export default function ReceiptVault({
             return (
               <button
                 key={type}
+                data-testid={`filter-category-${type}`}
+                aria-label={`Filter by ${type}`}
                 onClick={() => setSelectedType(type)}
                 style={{
                   display: 'flex',

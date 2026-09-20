@@ -38,6 +38,12 @@ export default function ReceiptCard({
     <div 
       className={`receipt-card ${isHighlighted ? 'highlighted' : ''}`}
       onClick={() => onSelect(receipt)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(receipt); }}}
+      role="article"
+      tabIndex={0}
+      aria-label={`Receipt for ${receipt.title}`}
+      data-testid={`receipt-card-${receipt.id}`}
+      data-activity-type={receipt.type}
       style={{
         cursor: 'pointer',
         border: isHighlighted ? '2px solid var(--accent-amber)' : '1px solid var(--paper-border)',
