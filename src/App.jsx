@@ -1,122 +1,101 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import StoryReel from './components/StoryReel';
+import ReceiptVault from './components/ReceiptVault';
+import ConnectionMatrix from './components/ConnectionMatrix';
+import ReceiptPrinter from './components/ReceiptPrinter';
+import ReceiptDetailModal from './components/ReceiptDetailModal';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Import curated datasets
+import allReceipts from './data/life_receipts.json';
+import chapters from './data/chapters.json';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('story'); // 'story', 'vault', 'matrix'
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
+  const [selectedAnchor, setSelectedAnchor] = useState(null);
+  const [isPrinterOpen, setIsPrinterOpen] = useState(false);
+
+  // Switch to Connection Matrix with the clicked receipt as anchor
+  const handleExploreConnections = (receipt) => {
+    setSelectedAnchor(receipt);
+    setActiveTab('matrix');
+    setSelectedReceipt(null);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-container">
+      {/* Navigation */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenPrinter={() => setIsPrinterOpen(true)}
+        receiptCount={allReceipts.length}
+      />
 
-      <div className="ticks"></div>
+      {/* Main View Area */}
+      <main className="main-content">
+        {activeTab === 'story' && (
+          <StoryReel
+            chapters={chapters}
+            allReceipts={allReceipts}
+            onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
+            onExploreConnections={handleExploreConnections}
+          />
+        )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {activeTab === 'vault' && (
+          <ReceiptVault
+            receipts={allReceipts}
+            onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
+            onExploreConnections={handleExploreConnections}
+          />
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {activeTab === 'matrix' && (
+          <ConnectionMatrix
+            allReceipts={allReceipts}
+            selectedAnchor={selectedAnchor}
+            onSelectAnchor={(receipt) => setSelectedAnchor(receipt)}
+            onSelectReceipt={(receipt) => setSelectedReceipt(receipt)}
+          />
+        )}
+      </main>
+
+      {/* Forensic Detail Modal */}
+      {selectedReceipt && (
+        <ReceiptDetailModal
+          receipt={selectedReceipt}
+          allReceipts={allReceipts}
+          onClose={() => setSelectedReceipt(null)}
+          onExploreConnections={handleExploreConnections}
+        />
+      )}
+
+      {/* Thermal Receipt Printer Simulation */}
+      <ReceiptPrinter
+        isOpen={isPrinterOpen}
+        onClose={() => setIsPrinterOpen(false)}
+        allReceipts={allReceipts}
+      />
+
+      {/* Footer */}
+      <footer style={{
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        padding: 'var(--space-6) var(--space-6)',
+        textAlign: 'center',
+        color: 'var(--text-muted)',
+        fontSize: '0.85rem'
+      }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <strong>PaperTrail</strong> — Your Life, In Receipts
+          </div>
+          <div>
+            WebRush 6-Hour Frontend Challenge • Built with React & GSAP • 100% Client-Side
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
-
-export default App
